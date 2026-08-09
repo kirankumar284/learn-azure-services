@@ -1,0 +1,28 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace TradeApp.Dtos;
+
+// Used by POST /trades
+public record CreateTradeDto(
+    [Required]
+    [StringLength(50)]
+    string Commodity,
+
+    [Required]
+    [Range(typeof(decimal), "0.01", "79228162514264337593543950335")]
+    decimal Quantity,
+
+    [Required]
+    [Range(typeof(decimal), "0.01", "79228162514264337593543950335")]
+    decimal Price,
+
+    [Required]
+    TradeSide BuySell,
+
+    [Required]
+    DateTime TradeDate,
+
+    [Required]
+    [StringLength(100)]
+    string Counterparty
+);
