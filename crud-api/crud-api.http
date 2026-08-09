@@ -1,0 +1,41 @@
+GET http://localhost:5196
+
+###
+GET http://localhost:5196/trades
+
+###
+GET http://localhost:5196/trades/1
+
+###
+POST http://localhost:5196/trades
+Content-Type: application/json
+
+{
+  "commodity": "Gold",
+  "quantity": 100.5,
+  "price": 2450.75,
+  "buySell": "Buy",
+  "tradeDate": "2026-08-06T10:30:00Z",
+  "counterparty": "ABC Commodities Ltd"
+}
+
+###
+PUT http://localhost:5196/trades/1
+Content-Type: application/json
+
+{
+  "commodity": "Gold",
+  "quantity": 120.0,
+  "price": 2475.25,
+  "buySell": "Sell",
+  "tradeDate": "2026-08-06T14:00:00Z",
+  "counterparty": "XYZ Trading Corp"
+}
+
+###
+PATCH  http://localhost:5196/trades/1
+Content-Type: application/json
+
+{
+  "buySell": "Buy"
+}
