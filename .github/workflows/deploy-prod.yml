@@ -1,4 +1,4 @@
-name: Build and Deploy .NET Core App to Azure App Service
+name: Build and Deploy .NET Core App to Azure App Service (PROD Environment)
 
 # 1. This triggers the workflow whenever you push to the 'main' branch
 on:
