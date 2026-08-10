@@ -9,7 +9,7 @@ on:
 
 # 2. Set environment variables
 env:
-  AZURE_WEBAPP_NAME: 'web-api'   # CHANGE THIS to your App Service name
+  AZURE_WEBAPP_NAME: 'etrm-web-app-prod'   # CHANGE THIS to your App Service name
   DOTNET_VERSION: '10.0.x'                 
 
 jobs:
@@ -36,5 +36,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
           package: ./publish_output
