@@ -29,7 +29,7 @@ jobs:
 
       # Step 3: Build the application and package it for Release
       - name: Build and Publish .NET app
-        run: dotnet publish ./crud-api/crud-api.csproj -c Release -o ./publish_output
+        run: dotnet publish ./trade-api/trade-api.csproj -c Release -o ./publish_output
 
       # Step 4: Deploy the packaged app to Azure
       - name: Deploy to Azure Web App
