@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>crud_api</RootNamespace>
+    <RootNamespace>TradeApp</RootNamespace>
     <UserSecretsId>80046fec-3fa6-4a58-8a5a-18a3e3a0071b</UserSecretsId>
   </PropertyGroup>
 
