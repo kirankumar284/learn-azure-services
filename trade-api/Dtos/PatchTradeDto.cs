@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TradeApp.Entity;
 
 namespace TradeApp.Dtos;
 

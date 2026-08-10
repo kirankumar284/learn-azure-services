@@ -1,5 +1,7 @@
 namespace TradeApp.Dtos;
 
+using TradeApp.Entity;
+
 // Returned by GET endpoints
 public record TradeDto(
     long Id,

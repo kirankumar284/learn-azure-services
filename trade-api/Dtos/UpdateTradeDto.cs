@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using TradeApp.Entity;
 
 namespace TradeApp.Dtos;
 
-// Used by POST /trades
-public record CreateTradeDto(
+// Used by PUT /trades/{id}
+public record UpdateTradeDto(
     [Required]
     [StringLength(50)]
     string Commodity,
