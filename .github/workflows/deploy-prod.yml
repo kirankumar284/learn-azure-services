@@ -1,0 +1,40 @@
+name: Build and Deploy .NET Core App to Azure App Service (PROD Environment)
+
+# 1. This triggers the workflow whenever you push to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows you to run the build manually from the UI
+
+# 2. Set environment variables
+env:
+  AZURE_WEBAPP_NAME: 'etrm-web-app-prod'   # CHANGE THIS to your App Service name
+  DOTNET_VERSION: '10.0.x'                 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code from your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the .NET environment on the build server
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Step 3: Build the application and package it for Release
+      - name: Build and Publish .NET app
+        run: dotnet publish ./crud-api/crud-api.csproj -c Release -o ./publish_output
+
+      # Step 4: Deploy the packaged app to Azure
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
+          package: ./publish_output
