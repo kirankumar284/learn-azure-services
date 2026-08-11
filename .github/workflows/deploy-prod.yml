@@ -1,37 +1,52 @@
 name: Build and Deploy .NET Core App to Azure App Service (PROD Environment)
 
-# 1. This triggers the workflow whenever you push to the 'main' branch
+# Trigger whenever you push to the main branch
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows you to run the build manually from the UI
+  workflow_dispatch:
 
-# 2. Set environment variables
+# Environment variables
 env:
-  AZURE_WEBAPP_NAME: 'etrm-web-app-prod'   # CHANGE THIS to your App Service name
-  DOTNET_VERSION: '10.0.x'                 
+  AZURE_WEBAPP_NAME: 'etrm-web-app-prod'
+  DOTNET_VERSION: '10.0.x'
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code from your repository
+      # Step 1: Check out the code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up the .NET environment on the build server
+      # Step 2: Set up the .NET SDK
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # Step 3: Build the application and package it for Release
+      # Step 2.1: Restore NuGet dependencies
+      - name: Restore dependencies
+        run: dotnet restore ./trade-api/trade-api.csproj
+
+      # Step 2.2: Install EF Core CLI
+      - name: Install EF Core CLI
+        run: dotnet tool install --global dotnet-ef
+
+      # Step 2.3: Apply database migrations
+      - name: Apply Database Migrations
+        run: |
+          dotnet ef database update \
+            --project ./trade-api/trade-api.csproj \
+            --connection "${{ secrets.AZURE_SQL_CONNECTION_STRING_PROD }}"
+
+      # Step 3: Build and publish the application
       - name: Build and Publish .NET app
         run: dotnet publish ./trade-api/trade-api.csproj -c Release -o ./publish_output
 
-      # Step 4: Deploy the packaged app to Azure
+      # Step 4: Deploy to Azure App Service
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
