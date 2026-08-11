@@ -26,6 +26,14 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+		  
+	 # STEP 2.1: Install the EF Core command-line tools on the GitHub runner
+      - name: Install EF Core CLI
+        run: dotnet tool install --global dotnet-ef
+
+      # STEP 2.2: Run the migrations against the Azure SQL Database
+      - name: Apply Database Migrations
+        run: dotnet ef database update --project ./trade-api/trade-api.csproj --connection "${{ secrets.AZURE_SQL_CONNECTION_STRING_DEV }}"
 
       # Step 3: Build the application and package it for Release
       - name: Build and Publish .NET app
